@@ -7,6 +7,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	pb "github.com/Spazzy757/grpcpoc/user"
+	"fmt"
 )
 
 const (
@@ -22,6 +23,7 @@ type server struct {
 // CreateUser creates a new Customer
 func (s *server) CreateUser(ctx context.Context, in *pb.UserRequest) (*pb.UserResponse, error) {
 	s.savedUsers = append(s.savedUsers, in)
+	fmt.Printf("User Request: %v \n", in)
 	return &pb.UserResponse{Id: in.Id, Success: true}, nil
 }
 
