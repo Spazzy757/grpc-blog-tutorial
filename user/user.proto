@@ -2,17 +2,17 @@ syntax = "proto3";
 package user;
 
 
-// The Customer service definition.
+// The User service definition.
 service User {
-    // Get all Customers with filter - A server-to-client streaming RPC.
+    // Get all User with filter - A server-to-client streaming RPC.
     rpc GetUsers(UserFilter) returns (stream UserRequest) {}
-    // Create a new Customer - A simple RPC
+    // Create a new User - A simple RPC
     rpc CreateUser(UserRequest) returns (UserResponse) {}
 }
 
-// Request message for creating a new customer
+// Request message for creating a new user
 message UserRequest {
-    int32 id = 1;  // Unique ID number for a Customer.
+    int32 id = 1;  // Unique ID number for a User.
     string name = 2;
     string email = 3;
     string password= 4;
