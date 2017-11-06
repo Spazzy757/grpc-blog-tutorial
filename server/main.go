@@ -14,20 +14,20 @@ const (
 	port = ":50051"
 )
 
-// server is used to implement customer.CustomerServer.
+// server is used to implement user.UserServer.
 type server struct {
 	savedUsers []*pb.UserRequest
 }
 
 
-// CreateUser creates a new Customer
+// CreateUser creates a new User
 func (s *server) CreateUser(ctx context.Context, in *pb.UserRequest) (*pb.UserResponse, error) {
 	s.savedUsers = append(s.savedUsers, in)
 	fmt.Printf("User Request: %v \n", in)
 	return &pb.UserResponse{Id: in.Id, Success: true}, nil
 }
 
-// GetUser returns all customers by given filter
+// GetUser returns all user by given filter
 func (s *server) GetUsers(filter *pb.UserFilter, stream pb.User_GetUsersServer) error {
 	for _, user := range s.savedUsers {
 		if filter.Keyword != "" {

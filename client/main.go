@@ -27,7 +27,7 @@ func createUser(client pb.UserClient, user *pb.UserRequest) {
 	}
 }
 
-// getCustomers calls the RPC method GetCustomers of CustomerServer
+// getUsers calls the RPC method GetUsers of UserServer
 func getUsers(client pb.UserClient, filter *pb.UserFilter) {
 	// calling the streaming API
 	stream, err := client.GetUsers(context.Background(), filter)
@@ -38,14 +38,14 @@ func getUsers(client pb.UserClient, filter *pb.UserFilter) {
 	// Runs until the io.EOF signal is received from the server
 	// Returns all users
 	for {
-		customer, err := stream.Recv()
+		user, err := stream.Recv()
 		if err == io.EOF {
 			break
 		}
 		if err != nil {
 			log.Fatalf("%v.GetUsers(_) = _, %v", client, err)
 		}
-		log.Printf("Users: %v", customer)
+		log.Printf("Users: %v", user)
 	}
 }
 
@@ -56,7 +56,7 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
-	// Creates a new CustomerClient
+	// Creates a new UserClient
 	client := pb.NewUserClient(conn)
 
 	for {
@@ -82,15 +82,15 @@ func main() {
 		password, _ := reader.ReadString('\n')
 		password = strings.TrimSuffix(password, "\n")
 
-		customer := &pb.UserRequest{
+		user := &pb.UserRequest{
 			Id:    id,
 			Name:  name,
 			Email: email,
 			Password: password,
 		}
 
-		// Create a new customer
-		createUser(client, customer)
+		// Create a new user
+		createUser(client, user)
 
 		// Filter with an empty Keyword, this can later be changed to search through the users
 		filter := &pb.UserFilter{Keyword: ""}
